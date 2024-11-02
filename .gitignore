@@ -1,0 +1,104 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+bower_components/
+
+# Build directories
+dist/
+dist-ssr/
+out/
+build/
+.tmp/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Typescript
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Coverage directory used by testing tools
+coverage/
+.nyc_output/
+
+# Optional webpack cache
+.webpack/
+
+# TypeScript declaration files
+*.d.ts
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Storybook files
+storybook-static/
+
+# Test report
+reports/
+
+# Parcel cache
+.cache/
+
+# Next.js files
+.next/
+out/
+
+# SvelteKit files
+.svelte-kit/
+
+# Nuxt.js files
+.nuxt/
+
+# MacOS
+*.DS_Store
+
+# WebStorm
+.idea/
+
+# Optional JetBrains IDE caches
+.idea/
+*.iml
+.idea_modules/

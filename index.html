@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Avatar Demo</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+    />
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <main
+      class="container"
+      style="display: flex; flex-direction: column; align-items: center"
+    >
+      <h1>Interactive Avatar Demo (Vite + TypeScript)</h1>
+
+      <!-- Video Section: Avatar and User Camera -->
+      <article style="display: flex; justify-content: space-around; width: 100%;">
+        <div>
+          <h3>HeyGen Avatar</h3>
+          <video id="avatarVideo" autoplay playsinline></video>
+        </div>
+        <div>
+          <h3>Your Camera</h3>
+          <video id="userCamera" autoplay playsinline muted></video>
+        </div>
+      </article>
+
+      <!-- Controls Section -->
+      <section>
+        <section role="group">
+          <button id="startSession">Start Session</button>
+          <button id="endSession" disabled>End Session</button>
+        </section>
+
+        <!-- Audio Recording Section -->
+        <section role="group">
+          <button id="recordButton">Record</button>
+          <button id="stopButton" disabled>Stop</button>
+        </section>
+      </section>
+
+      <!-- Transcribed Text Section -->
+      <section id="transcribedTextSection">
+        <h2>Transcribed Text:</h2>
+        <p id="transcribedText"></p>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
