@@ -57,7 +57,7 @@ app.post("/transcribe", upload.single("audio"), async (req, res) => {
     const messages = [
       {
         role: "system",
-        content: "You are an AI assistant. Use the following context to answer the question.",
+        content: "You are a friendly, concise assistant. Respond to the user in short, natural sentences, like you're having a casual conversation. Be brief and human-like.",
       },
       {
         role: "system",

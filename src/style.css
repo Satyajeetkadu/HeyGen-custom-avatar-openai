@@ -1,100 +1,113 @@
+/* Global Styles */
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    --pico-background-color: #2a3140;
+    --pico-color: #e0e0e0; /* Adjusted for better contrast on dark background */
+    --pico-primary: #0172ad;
+    --pico-primary-background: #0172ad;
+    --pico-primary-hover: #02659a;
+    --pico-primary-focus: rgba(2, 154, 232, 0.5);
+    --pico-secondary: #5d6b89;
+    --pico-secondary-background: #525f7a;
+    --pico-secondary-hover: #48536b;
+    --pico-secondary-focus: rgba(93, 107, 137, 0.25);
+    --pico-muted-color: #646b79;
+    --pico-border-color: #3e4451;
+    --pico-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+    --background-color: #2a3140;
+    --text-color: #e0e0e0;
+    --button-background: #0172ad;
+    --button-hover-background: #02659a;
+    --button-color: #ffffff;
+    --button-disabled-background: #3e4451;
+    --button-disabled-color: #646b79;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    margin: 0;
+    background-color: var(--pico-background-color);
+    color: var(--pico-color);
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+    font-size: 2.5em;
+    color: #64ffda;
+    margin-bottom: 1.5rem;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.container {
+    max-width: 1200px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #3178c6aa);
+.video-section {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
-.card {
-  padding: 2em;
+.video-container {
+    background-color: #181c25;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: var(--pico-box-shadow);
 }
 
-.read-the-docs {
-  color: #888;
+video {
+    width: 400px;
+    height: 300px;
+    border-radius: 8px;
+    border: 2px solid #64ffda;
+}
+
+.controls {
+    margin-bottom: 2rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+    background-color: var(--button-background);
+    color: var(--button-color);
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+
 button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+    background-color: var(--button-hover-background);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:disabled {
+    background-color: var(--button-disabled-background);
+    color: var(--button-disabled-color);
+    cursor: not-allowed;
 }
 
-#userCamera {
-  transform: scaleX(1); /* Unmirror the camera feed */
+.transcribed-text {
+    background-color: #181c25;
+    padding: 1rem;
+    border-radius: 8px;
+    color: var(--text-color);
+    box-shadow: var(--pico-box-shadow);
+    text-align: center;
+    width: 100%;
+}
+
+.transcribed-text h2 {
+    color: #64ffda;
 }

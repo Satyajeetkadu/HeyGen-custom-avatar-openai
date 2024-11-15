@@ -20,40 +20,89 @@ let audioChunks: BlobPart[] = [];
 // Helper function to fetch access token
 async function fetchAccessToken(): Promise<string> {
   const apiKey = import.meta.env.VITE_HEYGEN_API_KEY;
-  const response = await fetch(
-    "https://api.heygen.com/v1/streaming.create_token",
-    {
+  console.log("Using API Key:", apiKey);
+
+  if (!apiKey) {
+    console.error("API key is missing. Please check your environment variables.");
+    return "";
+  }
+
+  try {
+    const response = await fetch("https://api.heygen.com/v1/streaming.create_token", {
       method: "POST",
       headers: { "x-api-key": apiKey },
-    }
-  );
+    });
 
-  const { data } = await response.json();
-  return data.token;
+    if (!response.ok) {
+      console.error("Failed to fetch token:", response.statusText);
+      return "";
+    }
+
+    const { data } = await response.json();
+    console.log("Fetched Access Token Data:", data);
+    return data.token;
+  } catch (error) {
+    console.error("Error fetching access token:", error.message || error);
+    return "";
+  }
 }
+
+// Choose a specific non-default avatar ID
+// const AVATAR_ID = "Eric_public_pro2_20230608"; // Replace this with any valid avatar ID
+
 
 // Initialize streaming avatar session
 async function initializeAvatarSession() {
-  const token = await fetchAccessToken();
-  avatar = new StreamingAvatar({ token });
+  try {
+    // Step 1: Fetch the access token
+    const token = await fetchAccessToken();
+    console.log("Fetched Token:", token);
 
-  sessionData = await avatar.createStartAvatar({
-    quality: AvatarQuality.High,
-    avatarName: "default",
-    knowledgeBase: "Your avatar will respond using the content I give it.", // Knowledge base prompt
-  });
+    if (!token) {
+      console.error("Failed to fetch a valid token");
+      return;
+    }
 
+    // Step 2: Initialize the StreamingAvatar instance with the token
+    avatar = new StreamingAvatar({ token });
 
-  // Enable end button and disable start button
-  endButton.disabled = false;
-  startButton.disabled = true;
+    // Step 3: Use a non-default avatar ID here (change this as needed)
+    const avatarId = "Eric_public_pro2_20230608"; // Replace this with any valid avatar ID
 
-  avatar.on(StreamingEvents.STREAM_READY, handleStreamReady);
-  avatar.on(StreamingEvents.STREAM_DISCONNECTED, handleStreamDisconnected);
+    // Step 4: Start the avatar session with the specified avatar ID
+    sessionData = await avatar.createStartAvatar({
+      quality: AvatarQuality.High,
+      avatarName: avatarId,
+      knowledgeBase: "Your avatar will respond using the content I provide.",
+    });
 
-  // Start the user's camera feed
-  startCameraFeed();
+    console.log("Full Session Data:", sessionData);
+
+    // Step 5: Check if the session was successfully created
+    const sessionId = sessionData?.session_id;
+    if (!sessionId) {
+      console.error("Failed to retrieve a valid sessionId");
+      return;
+    }
+    console.log("Extracted sessionId:", sessionId);
+
+    // Step 6: Set up event listeners for streaming
+    avatar.on(StreamingEvents.STREAM_READY, handleStreamReady);
+    avatar.on(StreamingEvents.STREAM_DISCONNECTED, handleStreamDisconnected);
+
+    // Enable end button and disable start button
+    endButton.disabled = false;
+    startButton.disabled = true;
+
+    // Start the user's camera feed
+    startCameraFeed();
+  } catch (error) {
+    console.error("Error initializing avatar session:", error.message || error);
+  }
 }
+
+
+
 
 // Handle when avatar stream is ready
 function handleStreamReady(event: any) {
@@ -129,6 +178,8 @@ function stopRecording() {
 }
 
 // Send audio for transcription and response
+// Send audio for transcription and response
+// Send audio for transcription and response
 async function sendAudioForProcessing() {
   const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
   audioChunks = [];
@@ -145,20 +196,45 @@ async function sendAudioForProcessing() {
     const data = await response.json();
     const transcribedText = data.transcription;
     const generatedResponse = data.response;
+
+    console.log("Transcribed Text:", transcribedText);
+    console.log("Generated Response from GPT:", generatedResponse);
+
     transcribedTextElement.innerText = `You: ${transcribedText}\n\nAvatar: ${generatedResponse}`;
 
+    // Validate the avatar instance and sessionId before speaking
+    if (!avatar) {
+      console.error("Avatar instance is not initialized");
+      return;
+    }
+    
+    if (!sessionData || !sessionData.session_id) {
+      console.error("Invalid session data:", sessionData);
+      return;
+    }
+
+    const sessionId = sessionData.session_id;
+    console.log("Sending to avatar with sessionId:", sessionId);
+    console.log("Text to speak:", generatedResponse);
+
     // Ensure generated response from knowledge base is spoken by avatar
-    if (avatar) {
-      await avatar.speak({
-        text: generatedResponse,
-        taskType: "chat", // Set taskType to "chat" for generated response
-        sessionId: sessionData.sessionId, // Ensure the session is maintained
-      });
+    const speakResult = await avatar.speak({
+      text: generatedResponse,
+      taskType: "chat",
+      sessionId: sessionId,
+    });
+
+    console.log("Speak Result:", speakResult);
+
+    if (!speakResult || !speakResult.task_id) {
+      console.error("Failed to send text to avatar for speaking");
     }
   } catch (error) {
     console.error("Error during processing:", error);
   }
 }
+
+
 
 // Event listeners for buttons
 startButton.addEventListener("click", initializeAvatarSession);
